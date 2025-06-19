@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¿Todavía me odias?</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+      animation: vibrar 1s infinite alternate ease-in-out;
+    }
+
+    @keyframes vibrar {
+      0% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.02) rotate(-1deg); }
+      50% { transform: scale(1.05) rotate(1deg); }
+      75% { transform: scale(1.02) rotate(-1deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .buttons {
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      background-color: #fff;
+      color: #ff5e7e;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    #respuesta {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: #fff;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 5s infinite ease-in;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        bottom: -50px;
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        bottom: 100%;
+        opacity: 0;
+      }
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>¿Todavía me odias?</h1>
+  <div class="buttons">
+    <button onclick="responder('no')">No</button>
+    <button onclick="responder('si')">Sí</button>
+  </div>
+  <div id="respuesta"></div>
+
+  <!-- Música -->
+  <audio id="musicaFeliz">
+    <source src="musica_feliz.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="musicaTriste">
+    <source src="musica_triste.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    function crearCorazon() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    setInterval(crearCorazon, 300);
+
+    function responder(respuesta) {
+      const feliz = document.getElementById('musicaFeliz');
+      const triste = document.getElementById('musicaTriste');
+
+      feliz.pause();
+      feliz.currentTime = 0;
+      triste.pause();
+      triste.currentTime = 0;
+
+      if (respuesta === 'no') {
+        document.getElementById("respuesta").textContent = "Bueno, me escribes 🫠";
+        feliz.play();
+      } else {
+        document.getElementById("respuesta").textContent = "Bueno, yo nunca lo haré 😞";
+        triste.play();
+      }
+    }
+  </script>
+</body>
+</html>
